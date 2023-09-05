@@ -56,10 +56,18 @@ public class MesaDeNegociacaoServiceTest {
 		
 		Assert.assertEquals(valorEsperado, mesaDeNegociacaoAmortizacaoService.retornaRiscoPortabilidade(1L));
 		
-		
+	}
 	
-
-
+	@Test(expected=Exception.class)
+	public void testaRealizaAmortizacao() throws Exception {
+		
+		Usuario mutuario = new Usuario("Jose", new BigDecimal("4500"));
+		Emprestimo emprestimo = new Emprestimo(new BigDecimal("2000"), mutuario);
+		
+		// Definindo o comportamento do Mock emprestimoDAO
+		Mockito.when(emprestimoDAO.recuperaEmprestimo(Mockito.anyLong())).thenReturn(emprestimo);
+		
+		mesaDeNegociacaoAmortizacaoService.realizaAmortizacao(1L, new BigDecimal("2001"));
 	}
 	
 
